@@ -21,23 +21,23 @@ En esta tenemos los estados de vida del Juego que son:
 * Terminado
 * Ocioso
 
-### Incializando
+### -Incializando
 
 Coge la pantalla inicial y pasa al estado _corriendo_.
 
-### Corriendo
+### -Corriendo
 
 actualiza y presenta la *Pantalla*.
 
-### Pausado
+### -Pausado
 
 Se pausa la *Pantalla* y se pasa al estado _Ocioso_.
 
-### Terminado
+### -Terminado
 
 Se pausa y se libera la *Pantalla* y se pasa al estado _Ocioso_.
 
-### Ocioso
+### -Ocioso
 
 No hace nada.
 
