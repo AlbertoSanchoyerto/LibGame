@@ -16,15 +16,15 @@ public class GLGameTest extends GLGame
 	@Override
 	public Pantalla cogePantallaInicial()
 	{
-		return new TestScreen(this);
+		return new TestPantalla(this);
 	}
 
-	class TestScreen extends Pantalla
+	class TestPantalla extends Pantalla
 	{
 		GLGrafico glGrafico;
 		Random rand = new Random();
 
-		public TestScreen(Game game)
+		public TestPantalla(Game game)
 		{
 			super(game);
 			glGrafico = ((GLGame) game).cogeGLGrafico();
@@ -37,7 +37,7 @@ public class GLGameTest extends GLGame
 			gl.glClearColor(rand.nextFloat(), rand.nextFloat(),
 							rand.nextFloat(), 1);
 			gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-			
+
 		}
 
 		@Override

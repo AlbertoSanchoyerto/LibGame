@@ -7,25 +7,31 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class TestMain extends ListActivity {
+public class TestMain extends ListActivity
+{
     String tests[] = { "GLGameTest", "CubeTest" };
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+	{
         super.onCreate(savedInstanceState);
         setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, tests));
+												android.R.layout.simple_list_item_1, tests));
     }
 
     @Override
-    protected void onListItemClick(ListView list, View view, int position,long id) {
+    protected void onListItemClick(ListView list, View view, int position, long id)
+	{
         super.onListItemClick(list, view, position, id);
         String testName = tests[position];
-        try {
+        try
+		{
             Class clazz = Class
-                    .forName("org.libgame.mygame." + testName);
+				.forName("org.libgame.mygame." + testName);
             Intent intent = new Intent(this, clazz);
             startActivity(intent);
-        } catch (ClassNotFoundException e) {
+        }
+		catch (ClassNotFoundException e)
+		{
             e.printStackTrace();
         }
     }

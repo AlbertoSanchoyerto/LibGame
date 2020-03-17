@@ -9,23 +9,23 @@ import javax.microedition.khronos.opengles.GL10;
 
 import org.libgame.framework.gl.GLGrafico;
 
-public class BindableVertices
+public class VerticesEnlazables
 {
-    final GLGrafico glGraphics;
-    final boolean hasColor;
-    final boolean hasTexCoords;
-    final int vertexSize;
+    final GLGrafico glGrafico;
+    final boolean tieneColor;
+    final boolean tieneCoordsTex;
+    final int tamVertex;
     final FloatBuffer vertices;
     final ShortBuffer indices;
 
-    public BindableVertices(GLGrafico glGraphics, int maxVertices, int maxIndices, boolean hasColor, boolean hasTexCoords)
+    public VerticesEnlazables(GLGrafico glGrafico, int maxVertices, int maxIndices, boolean tieneColor, boolean tieneCoordsTex)
 	{
-        this.glGraphics = glGraphics;
-        this.hasColor = hasColor;
-        this.hasTexCoords = hasTexCoords;
-        this.vertexSize = (2 + (hasColor ?4: 0) + (hasTexCoords ?2: 0)) * 4;
+        this.glGrafico = glGrafico;
+        this.tieneColor = tieneColor;
+        this.tieneCoordsTex = tieneCoordsTex;
+        this.tamVertex = (2 + (tieneColor ?4: 0) + (tieneCoordsTex ?2: 0)) * 4;
 
-        ByteBuffer buffer = ByteBuffer.allocateDirect(maxVertices * vertexSize);
+        ByteBuffer buffer = ByteBuffer.allocateDirect(maxVertices * tamVertex);
         buffer.order(ByteOrder.nativeOrder());
         vertices = buffer.asFloatBuffer();
 
@@ -57,30 +57,30 @@ public class BindableVertices
 
 	public void une()
 	{
-		GL10 gl = glGraphics.cogeGL();
+		GL10 gl = glGrafico.cogeGL();
 
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		vertices.position(0);
-		gl.glVertexPointer(2, GL10.GL_FLOAT, vertexSize, vertices);
+		gl.glVertexPointer(2, GL10.GL_FLOAT, tamVertex, vertices);
 
-		if (hasColor)
+		if (tieneColor)
 		{
 			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 			vertices.position(2);
-			gl.glColorPointer(4, GL10.GL_FLOAT, vertexSize, vertices);
+			gl.glColorPointer(4, GL10.GL_FLOAT, tamVertex, vertices);
 		}
 
-		if (hasTexCoords)
+		if (tieneCoordsTex)
 		{
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-			vertices.position(hasColor ?6: 2);
-			gl.glTexCoordPointer(2, GL10.GL_FLOAT, vertexSize, vertices);
+			vertices.position(tieneColor ?6: 2);
+			gl.glTexCoordPointer(2, GL10.GL_FLOAT, tamVertex, vertices);
 		}
 	}
 
 	public void dibuja(int primitiveType, int offset, int numVertices)
 	{        
-		GL10 gl = glGraphics.cogeGL();
+		GL10 gl = glGrafico.cogeGL();
 
 		if (indices != null)
 		{
@@ -95,11 +95,11 @@ public class BindableVertices
 
 	public void desune()
 	{
-		GL10 gl = glGraphics.cogeGL();
-		if (hasTexCoords)
+		GL10 gl = glGrafico.cogeGL();
+		if (tieneCoordsTex)
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
-		if (hasColor)
+		if (tieneColor)
 			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 }

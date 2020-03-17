@@ -2,50 +2,57 @@ package org.libgame.framework.gl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class PuntoLuz {
-	float[] ambient = { 0.2f, 0.2f, 0.2f, 1.0f };
-	float[] diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
-	float[] specular = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float[] position = { 0, 0, 0, 1 };
-	int lastLightId = 0;
+public class PuntoLuz
+{
+	float[] ambiente = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float[] difusa = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float[] especular = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float[] posicion = { 0, 0, 0, 1 };
+	int ultimaIdLuz = 0;
 
-	public void setAmbient(float r, float g, float b, float a) {
-		ambient[0] = r;
-		ambient[1] = g;
-		ambient[2] = b;
-		ambient[3] = a;
+	public void ponAmbiente(float r, float g, float b, float a)
+	{
+		ambiente[0] = r;
+		ambiente[1] = g;
+		ambiente[2] = b;
+		ambiente[3] = a;
 	}
 
-	public void setDiffuse(float r, float g, float b, float a) {
-		diffuse[0] = r;
-		diffuse[1] = g;
-		diffuse[2] = b;
-		diffuse[3] = a;
+	public void ponDifusa(float r, float g, float b, float a)
+	{
+		difusa[0] = r;
+		difusa[1] = g;
+		difusa[2] = b;
+		difusa[3] = a;
 	}
 
-	public void setSpecular(float r, float g, float b, float a) {
-		specular[0] = r;
-		specular[1] = g;
-		specular[2] = b;
-		specular[3] = a;
+	public void ponEspecular(float r, float g, float b, float a)
+	{
+		especular[0] = r;
+		especular[1] = g;
+		especular[2] = b;
+		especular[3] = a;
 	}
 
-	public void setPosition(float x, float y, float z) {
-		position[0] = x;
-		position[1] = y;
-		position[2] = z;
+	public void ponPosicion(float x, float y, float z)
+	{
+		posicion[0] = x;
+		posicion[1] = y;
+		posicion[2] = z;
 	}
 
-	public void enable(GL10 gl, int lightId) {
-		gl.glEnable(lightId);
-		gl.glLightfv(lightId, GL10.GL_AMBIENT, ambient, 0);
-		gl.glLightfv(lightId, GL10.GL_DIFFUSE, diffuse, 0);
-		gl.glLightfv(lightId, GL10.GL_SPECULAR, specular, 0);
-		gl.glLightfv(lightId, GL10.GL_POSITION, position, 0);
-		lastLightId = lightId;
+	public void activa(GL10 gl, int idLuz)
+	{
+		gl.glEnable(idLuz);
+		gl.glLightfv(idLuz, GL10.GL_AMBIENT, ambiente, 0);
+		gl.glLightfv(idLuz, GL10.GL_DIFFUSE, difusa, 0);
+		gl.glLightfv(idLuz, GL10.GL_SPECULAR, especular, 0);
+		gl.glLightfv(idLuz, GL10.GL_POSITION, posicion, 0);
+		ultimaIdLuz = idLuz;
 	}
 
-	public void disable(GL10 gl) {
-		gl.glDisable(lastLightId);
+	public void desactiva(GL10 gl)
+	{
+		gl.glDisable(ultimaIdLuz);
 	}
 }

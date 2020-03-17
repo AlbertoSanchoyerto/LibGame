@@ -31,7 +31,7 @@ public class AndroidFicheroIO implements FicheroIO
     @Override
     public InputStream leerAsset(String nombreFichero) throws IOException
     {
-		
+
 		return assets.open(nombreFichero);
     }
 
