@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class TestMain extends ListActivity {
-    String tests[] = { "GLGameTest" };
+    String tests[] = { "GLGameTest", "CubeTest" };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
