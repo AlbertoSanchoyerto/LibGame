@@ -18,17 +18,23 @@ configurar la variable de entorno PATH el directorio donde se encuentre instalad
 
 Linux:
 
-`export PATH=$PATH:directorio_donde_esta_doxygen`
+```
+export PATH=$PATH:directorio_donde_esta_doxygen
+```
 
 Windows:
 
-`SET PATH=%PATH%;directorio_donde_esta_doxygen;`
+```
+SET PATH=%PATH%;directorio_donde_esta_doxygen;
+```
 
 Luego para generar la documentación solo hay que ejecutar el doxygen en el directorio donde esta el proyecto con:
 
-`doxygen doxygen.cfg`
+```
+doxygen doxygen.cfg
+```
 
-Esto generará la documentación en el directorio doxygen/html/ como página web.
+Esto generará la documentación en el directorio [doxygen/html/](index.html) como página web.
 
 ## Empezando
 
