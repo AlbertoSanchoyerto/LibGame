@@ -18,7 +18,6 @@ import org.libgame.framework.gl.*;
  */
 public class CuboTest extends GLGame
 {
-
     @Override
     public Pantalla cogePantallaInicial()
 	{    
@@ -34,56 +33,10 @@ public class CuboTest extends GLGame
         public CubePantalla(Game game)
 		{
             super(game);
-
-            cubo = crearCubo();
+			
+			cubo = CargarOBJ.leer(glGame, "cubo.obj");
+            
             textura = new Textura(glGame, "crate.png");
-        }
-
-        private Vertices3 crearCubo()
-		{
-            float[] vertices = { -0.5f, -0.5f,  0.5f, 0, 1,
-				0.5f, -0.5f,  0.5f, 1, 1,
-				0.5f,  0.5f,  0.5f, 1, 0,
-				-0.5f,  0.5f,  0.5f, 0, 0,
-
-				0.5f, -0.5f,  0.5f, 0, 1,
-				0.5f, -0.5f, -0.5f, 1, 1,
-				0.5f,  0.5f, -0.5f, 1, 0,
-				0.5f,  0.5f,  0.5f, 0, 0,
-
-				0.5f, -0.5f, -0.5f, 0, 1,
-				-0.5f, -0.5f, -0.5f, 1, 1,
-				-0.5f,  0.5f, -0.5f, 1, 0,
-				0.5f,  0.5f, -0.5f, 0, 0,
-
-				-0.5f, -0.5f, -0.5f, 0, 1, 
-				-0.5f, -0.5f,  0.5f, 1, 1,
-				-0.5f,  0.5f,  0.5f, 1, 0,
-				-0.5f,  0.5f, -0.5f, 0, 0,
-
-				-0.5f,  0.5f,  0.5f, 0, 1,
-				0.5f,  0.5f,  0.5f, 1, 1,
-				0.5f,  0.5f, -0.5f, 1, 0,
-				-0.5f,  0.5f, -0.5f, 0, 0,
-
-				-0.5f, -0.5f,  0.5f, 0, 1,
-				0.5f, -0.5f,  0.5f, 1, 1,
-				0.5f, -0.5f, -0.5f, 1, 0,
-				-0.5f, -0.5f, -0.5f, 0, 0
-            };             
-
-            short[] indices = { 0, 1, 3, 1, 2, 3,
-				4, 5, 7, 5, 6, 7,
-				8, 9, 11, 9, 10, 11,
-				12, 13, 15, 13, 14, 15,
-				16, 17, 19, 17, 18, 19,
-				20, 21, 23, 21, 22, 23,
-            };
-
-            Vertices3 cubo = new Vertices3(glGraficos, 24, 36, false, true, false);
-            cubo.ponVertices(vertices, 0, vertices.length);
-            cubo.ponIndices(indices, 0, indices.length);
-            return cubo;
         }
 
         @Override

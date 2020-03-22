@@ -10,7 +10,6 @@ import org.libgame.framework.matematica.Vector2;
  */
 public class Camara2D
 {
-
     public final Vector2 posicion;
     public float zoom;
     public final float troncoAncho;
