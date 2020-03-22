@@ -7,7 +7,7 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.libgame.framework.gl.GLGrafico;
+import org.libgame.framework.gl.GLGraficos;
 
 /**
  * @class VerticesEnlazados

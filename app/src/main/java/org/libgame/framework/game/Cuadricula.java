@@ -50,7 +50,7 @@ public class Cuadricula
         }
     }
 
-    public void insertaObjetoDinamico(OjetoGame obj)
+    public void insertaObjetoDinamico(ObjetoGame obj)
     {
         int[] idsCeldas = cogeIdsCeldas(obj);
         int i = 0;

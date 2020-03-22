@@ -14,7 +14,7 @@ public class Animacion
     final TexturaRegion[] fotogramas;
     final float duration;
 
-    public Animation(float duration, TexturaRegion ... fotogramas)
+    public Animacion(float duration, TexturaRegion ... fotogramas)
     {
         this.duration = duration;
         this.fotogramas = fotogramas;

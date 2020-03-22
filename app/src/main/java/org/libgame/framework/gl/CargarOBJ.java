@@ -139,7 +139,7 @@ public class CargarOBJ
                 }
             }
 
-            Vertices3 modelo = new Vertices3(game.cogeGLGrafico(), numCaras * 3,
+            Vertices3 modelo = new Vertices3(game.cogeGLGraficos(), numCaras * 3,
                                              0, false, numUV > 0, numNormales > 0);
             modelo.ponVertices(verts, 0, verts.length);
             return modelo;

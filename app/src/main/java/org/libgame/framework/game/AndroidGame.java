@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import org.libgame.framework.Audio;
 import org.libgame.framework.FicheroIO;
 import org.libgame.framework.Game;
-import org.libgame.framework.Grafico;
+import org.libgame.framework.Graficos;
 import org.libgame.framework.Control;
 import org.libgame.framework.Pantalla;
 

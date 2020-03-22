@@ -4,18 +4,17 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.util.FloatMath;
 
-import org.libgame.framework.gl.GLGrafico;
+import org.libgame.framework.gl.GLGraficos;
 import org.libgame.framework.matematica.Vector2;
 
 public class GrupoImagen
 {
-
     final float[] verticesBuffer;
     int bufferIndice;
     final Vertices vertices;
     int numSprites;    
 
-    public GrupoImagen(GLGrafico glGraficos, int maxSprites)
+    public GrupoImagen(GLGraficos glGraficos, int maxSprites)
     {
 
 		this.verticesBuffer = new float[maxSprites * 4 * 4];        

@@ -2,7 +2,7 @@ package org.libgame.framework.grafico;
 
 import android.graphics.Bitmap;
 
-import org.libgame.framework.Grafico.FotmatoPixmap;
+import org.libgame.framework.Graficos.FotmatoPixmap;
 import org.libgame.framework.MapPixel;
 
 /**

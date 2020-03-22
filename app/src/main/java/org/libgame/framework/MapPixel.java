@@ -1,6 +1,6 @@
 package org.libgame.framework;
 
-import org.libgame.framework.Grafico.FotmatoPixmap;
+import org.libgame.framework.Graficos.FotmatoPixmap;
 
 /**
  * @interface MapPixel

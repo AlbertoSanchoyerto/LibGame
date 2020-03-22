@@ -79,7 +79,7 @@ public abstract class GLGame extends Activity implements Game, Renderer
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     { 
-        glGrafico.ponGL(gl);
+        glGraficos.ponGL(gl);
 
         synchronized (estadoCambiado)
         {

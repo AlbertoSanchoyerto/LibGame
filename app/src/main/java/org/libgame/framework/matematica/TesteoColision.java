@@ -12,7 +12,7 @@ public class TesteoColision
     public static boolean colisionCirculos(Circulo c1, Circulo c2)
     {
 
-		float distancia = c1.centro.distanciaCuadrada(c2.centro);
+		float distancia = c1.centro.distCuadrada(c2.centro);
 		float sumRadios = c1.radio + c2.radio;
 
 		return distancia <= sumRadios * sumRadios;
@@ -64,19 +64,19 @@ public class TesteoColision
 			closestY = r.min.y + r.alto;
 		}
 
-		return c.centro.distanciaCuadrada(closestX, closestY) < c.radio * c.radio;           
+		return c.centro.distCuadrada(closestX, closestY) < c.radio * c.radio;           
     }
 
     public static boolean puntoEnCirculo(Circulo c, Vector2 p)
     {
 
-		return c.centro.distanciaCuadrada(p) < c.radio * c.radio;
+		return c.centro.distCuadrada(p) < c.radio * c.radio;
     }
 
     public static boolean puntoEnCirculo(Circulo c, float x, float y)
     {
 
-		return c.centro.distanciaCuadrada(x, y) < c.radio * c.radio;
+		return c.centro.distCuadrada(x, y) < c.radio * c.radio;
     }
 
     public static boolean puntoEnRectangulo(Rectangulo r, Vector2 p)

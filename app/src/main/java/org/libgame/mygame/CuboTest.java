@@ -27,7 +27,6 @@ public class CuboTest extends GLGame
 
     class CubePantalla extends GLPantalla
 	{
-        GLGrafico glGrafico;
 		Vertices3 cubo;
         Textura textura;
         float angulo = 0;
@@ -35,7 +34,6 @@ public class CuboTest extends GLGame
         public CubePantalla(Game game)
 		{
             super(game);
-			glGrafico = ((GLGame)game).cogeGLGrafico();
 
             cubo = crearCubo();
             textura = new Textura(glGame, "crate.png");
@@ -82,7 +80,7 @@ public class CuboTest extends GLGame
 				20, 21, 23, 21, 22, 23,
             };
 
-            Vertices3 cubo = new Vertices3(glGrafico, 24, 36, false, true, false);
+            Vertices3 cubo = new Vertices3(glGraficos, 24, 36, false, true, false);
             cubo.ponVertices(vertices, 0, vertices.length);
             cubo.ponIndices(indices, 0, indices.length);
             return cubo;
@@ -103,13 +101,13 @@ public class CuboTest extends GLGame
         @Override
         public void presenta(float deltaTime)
 		{
-            GL10 gl = glGrafico.cogeGL();
-            gl.glViewport(0, 0, glGrafico.cogeAncho(), glGrafico.cogeAlto());
+            GL10 gl = glGraficos.cogeGL();
+            gl.glViewport(0, 0, glGraficos.cogeAncho(), glGraficos.cogeAlto());
             gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
             gl.glMatrixMode(GL10.GL_PROJECTION);
             gl.glLoadIdentity();
             GLU.gluPerspective(gl, 67, 
-                               glGrafico.cogeAncho() / (float) glGrafico.cogeAlto(),
+                               glGraficos.cogeAncho() / (float) glGraficos.cogeAlto(),
                                0.1f, 10.0f);
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadIdentity();

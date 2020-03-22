@@ -20,7 +20,7 @@ import org.libgame.framework.MapPixel;
  * @class AndroidGraficos
  * @brief clase AndroidGraficos clase base de Grafico con openGL 3D
  */
-public class AndroidGraficos implements Grafico
+public class AndroidGraficos implements Graficos
 {
     AssetManager assets;
     Bitmap frameBuffer;

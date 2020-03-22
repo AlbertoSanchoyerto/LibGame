@@ -15,7 +15,7 @@ import org.libgame.framework.gl.GLGraficos;
  */
 public class Vertices3
 {
-    final GLGrafico glGrafico;
+    final GLGraficos glGraficos;
     final boolean tieneColor;
     final boolean tieneCoordsTex;
     final boolean tieneNormales;

@@ -7,18 +7,18 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.libgame.framework.gl.GLGrafico;
+import org.libgame.framework.gl.GLGraficos;
 
 public class VerticesEnlazables
 {
-    final GLGrafico glGrafico;
+    final GLGraficos glGrafico;
     final boolean tieneColor;
     final boolean tieneCoordsTex;
     final int tamVertex;
     final FloatBuffer vertices;
     final ShortBuffer indices;
 
-    public VerticesEnlazables(GLGrafico glGrafico, int maxVertices, int maxIndices, boolean tieneColor, boolean tieneCoordsTex)
+    public VerticesEnlazables(GLGraficos glGrafico, int maxVertices, int maxIndices, boolean tieneColor, boolean tieneCoordsTex)
 	{
         this.glGrafico = glGrafico;
         this.tieneColor = tieneColor;

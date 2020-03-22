@@ -11,7 +11,7 @@ import android.opengl.GLUtils;
 
 import org.libgame.framework.FicheroIO;
 import org.libgame.framework.gl.GLGame;
-import org.libgame.framework.gl.GLGrafico;
+import org.libgame.framework.gl.GLGraficos;
 
 /**
  * @class Textura
@@ -30,7 +30,7 @@ public class Textura
 
     public Textura(GLGame glGame, String nombreFichero)
     {
-        this.glGraficos = glGame.cogeGLGrafico();
+        this.glGraficos = glGame.cogeGLGraficos();
         this.ficheroIO = glGame.cogeFicheroIO();
         this.nombreFichero = nombreFichero;
         carga();
