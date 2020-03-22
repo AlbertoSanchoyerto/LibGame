@@ -10,6 +10,10 @@ import org.libgame.framework.gl.GLGame;
 import org.libgame.framework.gl.GLGrafico;
 import org.libgame.framework.*;
 
+/**
+ * @class GLGameTest
+ * @brief la clase GLGameTest ejemplo secillo de 2D
+ */
 public class GLGameTest extends GLGame
 {
 

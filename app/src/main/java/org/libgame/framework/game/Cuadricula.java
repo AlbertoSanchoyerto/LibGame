@@ -7,160 +7,164 @@ import org.libgame.framework.game.ObjetoGame;
 
 import android.util.FloatMath;
 
+/**
+ * @class Cuadricula
+ * @brief clase Cuadricula
+ * crea y maneja una cuadriculad de elentos de juego con objetos estaticos y objetos dinamicos
+ */
 public class Cuadricula
 {
-    List<ObjetoGame>[] dynamicCells;
-    List<ObjetoGame>[] staticCells;
-    int cellsPerRow;
-    int cellsPerCol;
-    float cellSize;
-    int[] cellIds = new int[4];
-    List<ObjetoGame> foundObjects;
+    List<ObjetoGame>[] celdasDinamicas;
+    List<ObjetoGame>[] celdasEstaticas;
+    int celdasPorFila;
+    int celdasPorColumnas;
+    float tamCelda;
+    int[] idsCeldas = new int[4];
+    List<ObjetoGame> objetosEncontrados;
 
     @SuppressWarnings("unchecked")
-    public Cuadricula(float worldWidth, float worldHeight, float cellSize)
-	{
-        this.cellSize = cellSize;
-        this.cellsPerRow = (int)Math.ceil(worldWidth / cellSize);
-        this.cellsPerCol = (int)Math.ceil(worldHeight / cellSize);
-        int numCells = cellsPerRow * cellsPerCol;
-        dynamicCells = new List[numCells];
-        staticCells = new List[numCells];
-        for (int i = 0; i < numCells; i++)
-		{
-            dynamicCells[i] = new ArrayList<ObjetoGame>(10);
-            staticCells[i] = new ArrayList<ObjetoGame>(10);
+    public Cuadricula(float anchoMundo, float altoMundo, float tamCelda)
+    {
+        this.tamCelda = tamCelda;
+        this.celdasPorFila = (int)Math.ceil(anchoMundo / tamCelda);
+        this.celdasPorColumnas = (int)Math.ceil(altoMundo / tamCelda);
+        int numCeldas = celdasPorFila * celdasPorColumnas;
+        celdasDinamicas = new List[numCeldas];
+        celdasEstaticas = new List[numCeldas];
+        for (int i = 0; i < numCeldas; i++)
+        {
+            celdasDinamicas[i] = new ArrayList<ObjetoGame>(10);
+            celdasEstaticas[i] = new ArrayList<ObjetoGame>(10);
         }
-        foundObjects = new ArrayList<ObjetoGame>(10);
+        objetosEncontrados = new ArrayList<ObjetoGame>(10);
     }
 
-    public void insertStaticObject(ObjetoGame obj)
-	{
-        int[] cellIds = getCellIds(obj);
+    public void insertaObjetoEstatico(ObjetoGame obj)
+    {
+        int[] idsCeldas = cogeIdsCeldas(obj);
         int i = 0;
-        int cellId = -1;
-        while (i <= 3 && (cellId = cellIds[i++]) != -1)
-		{
-            staticCells[cellId].add(obj);
+        int idCelda = -1;
+        while (i <= 3 && (idCelda = idsCeldas[i++]) != -1)
+        {
+            celdasEstaticas[idCelda].add(obj);
         }
     }
 
-    public void insertDynamicObject(ObjetoGame obj)
-	{
-        int[] cellIds = getCellIds(obj);
+    public void insertaObjetoDinamico(OjetoGame obj)
+    {
+        int[] idsCeldas = cogeIdsCeldas(obj);
         int i = 0;
-        int cellId = -1;
-        while (i <= 3 && (cellId = cellIds[i++]) != -1)
-		{
-            dynamicCells[cellId].add(obj);
+        int idCelda = -1;
+        while (i <= 3 && (idCelda = idsCeldas[i++]) != -1)
+        {
+            celdasDinamicas[idCelda].add(obj);
         }
     }
 
-    public void removeObject(ObjetoGame obj)
-	{
-        int[] cellIds = getCellIds(obj);
+    public void quitaObjeto(ObjetoGame obj)
+    {
+        int[] idsCeldas = cogeIdsCeldas(obj);
         int i = 0;
-        int cellId = -1;
-        while (i <= 3 && (cellId = cellIds[i++]) != -1)
-		{
-            dynamicCells[cellId].remove(obj);
-            staticCells[cellId].remove(obj);
+        int idCelda = -1;
+        while (i <= 3 && (idCelda = idsCeldas[i++]) != -1)
+        {
+            celdasDinamicas[idCelda].remove(obj);
+            celdasEstaticas[idCelda].remove(obj);
         }
     }
 
-    public void clearDynamicCells(ObjetoGame obj)
-	{
-        int len = dynamicCells.length;
+    public void limipiaCeldasDinamicas(ObjetoGame obj)
+    {
+        int len = celdasDinamicas.length;
         for (int i = 0; i < len; i++)
-		{
-            dynamicCells[i].clear();
+        {
+            celdasDinamicas[i].clear();
         }
     }
 
-    public List<ObjetoGame> getPotentialColliders(ObjetoGame obj)
-	{
-        foundObjects.clear();
-        int[] cellIds = getCellIds(obj);
+    public List<ObjetoGame> cogeColisionadoresPontenciales(ObjetoGame obj)
+    {
+        objetosEncontrados.clear();
+        int[] idsCeldas = cogeIdsCeldas(obj);
         int i = 0;
-        int cellId = -1;
-        while (i <= 3 && (cellId = cellIds[i++]) != -1)
-		{
-            int len = dynamicCells[cellId].size();
+        int idCelda = -1;
+        while (i <= 3 && (idCelda = idsCeldas[i++]) != -1)
+        {
+            int len = celdasDinamicas[idCelda].size();
             for (int j = 0; j < len; j++)
-			{
-                ObjetoGame collider = dynamicCells[cellId].get(j);
-                if (!foundObjects.contains(collider))
-                    foundObjects.add(collider);
+            {
+                ObjetoGame collider = celdasDinamicas[idCelda].get(j);
+                if (!objetosEncontrados.contains(collider))
+                    objetosEncontrados.add(collider);
             }
 
-            len = staticCells[cellId].size();
+            len = celdasEstaticas[idCelda].size();
             for (int j = 0; j < len; j++)
-			{
-                ObjetoGame collider = staticCells[cellId].get(j);
-                if (!foundObjects.contains(collider))
-                    foundObjects.add(collider);
+            {
+                ObjetoGame collider = celdasEstaticas[idCelda].get(j);
+                if (!objetosEncontrados.contains(collider))
+                    objetosEncontrados.add(collider);
             }
         }
-        return foundObjects;
+        return objetosEncontrados;
     }
 
-    public int[] getCellIds(ObjetoGame obj)
-	{
-
-        int x1 = (int)Math.floor(obj.bounds.min.x / cellSize);
-        int y1 = (int)Math.floor(obj.bounds.min.y / cellSize);
-        int x2 = (int)Math.floor((obj.bounds.min.x + obj.bounds.ancho) / cellSize);
-        int y2 = (int)Math.floor((obj.bounds.min.y + obj.bounds.alto) / cellSize);
+    public int[] cogeIdsCeldas(ObjetoGame obj)
+    {
+        int x1 = (int)Math.floor(obj.limites.min.x / tamCelda);
+        int y1 = (int)Math.floor(obj.limites.min.y / tamCelda);
+        int x2 = (int)Math.floor((obj.limites.min.x + obj.limites.ancho) / tamCelda);
+        int y2 = (int)Math.floor((obj.limites.min.y + obj.limites.alto) / tamCelda);
 
         if (x1 == x2 && y1 == y2)
-		{
-            if (x1 >= 0 && x1 < cellsPerRow && y1 >= 0 && y1 < cellsPerCol)
-                cellIds[0] = x1 + y1 * cellsPerRow;
+        {
+            if (x1 >= 0 && x1 < celdasPorFila && y1 >= 0 && y1 < celdasPorColumnas)
+                idsCeldas[0] = x1 + y1 * celdasPorFila;
             else
-                cellIds[0] = -1;
-            cellIds[1] = -1;
-            cellIds[2] = -1;
-            cellIds[3] = -1;
+                idsCeldas[0] = -1;
+            idsCeldas[1] = -1;
+            idsCeldas[2] = -1;
+            idsCeldas[3] = -1;
         }
         else if (x1 == x2)
-		{
+        {
             int i = 0;
-            if (x1 >= 0 && x1 < cellsPerRow)
-			{
-                if (y1 >= 0 && y1 < cellsPerCol)
-                    cellIds[i++] = x1 + y1 * cellsPerRow;
-                if (y2 >= 0 && y2 < cellsPerCol)
-                    cellIds[i++] = x1 + y2 * cellsPerRow;
+            if (x1 >= 0 && x1 < celdasPorFila)
+            {
+                if (y1 >= 0 && y1 < celdasPorColumnas)
+                    idsCeldas[i++] = x1 + y1 * celdasPorFila;
+                if (y2 >= 0 && y2 < celdasPorColumnas)
+                    idsCeldas[i++] = x1 + y2 * celdasPorFila;
             }
-            while (i <= 3) cellIds[i++] = -1;
+            while (i <= 3) idsCeldas[i++] = -1;
         }
         else if (y1 == y2)
-		{
+        {
             int i = 0;
-            if (y1 >= 0 && y1 < cellsPerCol)
-			{
-                if (x1 >= 0 && x1 < cellsPerRow)
-                    cellIds[i++] = x1 + y1 * cellsPerRow;
-                if (x2 >= 0 && x2 < cellsPerRow)
-                    cellIds[i++] = x2 + y1 * cellsPerRow;
+            if (y1 >= 0 && y1 < celdasPorColumnas)
+            {
+                if (x1 >= 0 && x1 < celdasPorFila)
+                    idsCeldas[i++] = x1 + y1 * celdasPorFila;
+                if (x2 >= 0 && x2 < celdasPorFila)
+                    idsCeldas[i++] = x2 + y1 * celdasPorFila;
             }
-            while (i <= 3) cellIds[i++] = -1;                       
+            while (i <= 3) idsCeldas[i++] = -1;                       
         }
         else
-		{
+        {
             int i = 0;
-            int y1CellsPerRow = y1 * cellsPerRow;
-            int y2CellsPerRow = y2 * cellsPerRow;
-            if (x1 >= 0 && x1 < cellsPerRow && y1 >= 0 && y1 < cellsPerCol)
-                cellIds[i++] = x1 + y1CellsPerRow;
-            if (x2 >= 0 && x2 < cellsPerRow && y1 >= 0 && y1 < cellsPerCol)
-                cellIds[i++] = x2 + y1CellsPerRow;
-            if (x2 >= 0 && x2 < cellsPerRow && y2 >= 0 && y2 < cellsPerCol)
-                cellIds[i++] = x2 + y2CellsPerRow;
-            if (x1 >= 0 && x1 < cellsPerRow && y2 >= 0 && y2 < cellsPerCol)
-                cellIds[i++] = x1 + y2CellsPerRow;
-            while (i <= 3) cellIds[i++] = -1;
+            int y1celdasPorFila = y1 * celdasPorFila;
+            int y2celdasPorFila = y2 * celdasPorFila;
+            if (x1 >= 0 && x1 < celdasPorFila && y1 >= 0 && y1 < celdasPorColumnas)
+                idsCeldas[i++] = x1 + y1celdasPorFila;
+            if (x2 >= 0 && x2 < celdasPorFila && y1 >= 0 && y1 < celdasPorColumnas)
+                idsCeldas[i++] = x2 + y1celdasPorFila;
+            if (x2 >= 0 && x2 < celdasPorFila && y2 >= 0 && y2 < celdasPorColumnas)
+                idsCeldas[i++] = x2 + y2celdasPorFila;
+            if (x1 >= 0 && x1 < celdasPorFila && y2 >= 0 && y2 < celdasPorColumnas)
+                idsCeldas[i++] = x1 + y2celdasPorFila;
+            while (i <= 3) idsCeldas[i++] = -1;
         }
-        return cellIds;
+        return idsCeldas;
     }
 }

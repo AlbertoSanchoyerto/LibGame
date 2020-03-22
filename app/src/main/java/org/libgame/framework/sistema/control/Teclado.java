@@ -11,6 +11,10 @@ import org.libgame.framework.Control.EventoTecla;
 import org.libgame.framework.util.Pila;
 import org.libgame.framework.util.Pila.FactoriaPilaObjetos;
 
+/**
+ * @class Teclado
+ * @brief clase Teclado
+ */
 public class Teclado implements OnKeyListener
 {
 
@@ -25,97 +29,97 @@ public class Teclado implements OnKeyListener
     public Teclado(View view)
     {
 
-		FactoriaPilaObjetos<EventoTecla> factory = new FactoriaPilaObjetos<EventoTecla>() {
+        FactoriaPilaObjetos<EventoTecla> factory = new FactoriaPilaObjetos<EventoTecla>() {
 
-			@Override
-			public EventoTecla crearObjeto()
-			{
+            @Override
+            public EventoTecla crearObjeto()
+            {
 
-				return new EventoTecla();
-			}
-		};
+                return new EventoTecla();
+            }
+        };
 
-		pilaEventosTecla = new Pila<EventoTecla>(factory, MAX_PILA_TECLAS);
-		view.setOnKeyListener(this);
-		view.setFocusableInTouchMode(true);
-		view.requestFocus();
+        pilaEventosTecla = new Pila<EventoTecla>(factory, MAX_PILA_TECLAS);
+        view.setOnKeyListener(this);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
     }
 
     @Override
     public boolean onKey(View view, int codigoTecla, KeyEvent evento)
     {
 
-		if (evento.getAction() == KeyEvent.ACTION_MULTIPLE)
-		{
+        if (evento.getAction() == KeyEvent.ACTION_MULTIPLE)
+        {
 
-			return false;
-		}
+            return false;
+        }
 
-		synchronized (this)
-		{
+        synchronized (this)
+        {
 
-			EventoTecla eventoTecla = pilaEventosTecla.nuevoObjeto();
-			eventoTecla.codigoTecla = codigoTecla;
-			eventoTecla.caracterTecla = (char) evento.getUnicodeChar();
+            EventoTecla eventoTecla = pilaEventosTecla.nuevoObjeto();
+            eventoTecla.codigoTecla = codigoTecla;
+            eventoTecla.caracterTecla = (char) evento.getUnicodeChar();
 
-			if (evento.getAction() == android.view.KeyEvent.ACTION_DOWN)
-			{
+            if (evento.getAction() == android.view.KeyEvent.ACTION_DOWN)
+            {
 
-				eventoTecla.tipo = EventoTecla.TECLA_ABAJO;
-				if (codigoTecla > 0 && codigoTecla < 127)
-				{
+                eventoTecla.tipo = EventoTecla.TECLA_ABAJO;
+                if (codigoTecla > 0 && codigoTecla < 127)
+                {
 
-					teclasPulsadas[codigoTecla] = true;
-				}
-			}
+                    teclasPulsadas[codigoTecla] = true;
+                }
+            }
 
-			if (evento.getAction() == android.view.KeyEvent.ACTION_UP)
-			{
+            if (evento.getAction() == android.view.KeyEvent.ACTION_UP)
+            {
 
-				eventoTecla.tipo = EventoTecla.TECLA_ARRIBA;
+                eventoTecla.tipo = EventoTecla.TECLA_ARRIBA;
 
-				if (codigoTecla > 0 && codigoTecla < 127)
-				{
+                if (codigoTecla > 0 && codigoTecla < 127)
+                {
 
-					teclasPulsadas[codigoTecla] = false;
-				}
-			}
+                    teclasPulsadas[codigoTecla] = false;
+                }
+            }
 
-			bufferEventosTecla.add(eventoTecla);
-		}
+            bufferEventosTecla.add(eventoTecla);
+        }
 
-		return false;
+        return false;
     }
 
     public boolean esTeclaPulsada(int codigoTecla)
     {
 
-		if (codigoTecla < 0 || codigoTecla > 127)
-		{
+        if (codigoTecla < 0 || codigoTecla > 127)
+        {
 
-			return false;
-		}
-		return teclasPulsadas[codigoTecla];
+            return false;
+        }
+        return teclasPulsadas[codigoTecla];
     }
 
     public List<EventoTecla> cogeEventosTecla()
     {
 
-		synchronized (this)
-		{
+        synchronized (this)
+        {
 
-			int len = eventosTecla.size();
+            int len = eventosTecla.size();
 
-			for (int i = 0; i < len; i++)
-			{
-				pilaEventosTecla.libera(eventosTecla.get(i));
-			}
+            for (int i = 0; i < len; i++)
+            {
+                pilaEventosTecla.libera(eventosTecla.get(i));
+            }
 
-			eventosTecla.clear();
-			eventosTecla.addAll(bufferEventosTecla);
-			bufferEventosTecla.clear();
+            eventosTecla.clear();
+            eventosTecla.addAll(bufferEventosTecla);
+            bufferEventosTecla.clear();
 
-			return eventosTecla;
-		}
+            return eventosTecla;
+        }
     }
 }

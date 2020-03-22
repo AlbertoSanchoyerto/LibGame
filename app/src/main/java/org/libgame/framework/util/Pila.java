@@ -3,13 +3,19 @@ package org.libgame.framework.util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @class Pila
+ * @brief clase plantilla Pila utilidad para hacer pila de objetos
+ */
 public class Pila<T>
 {
-
+    /**
+     * @interface FactoriaPilaObjetos<T>
+     * @brief interface de FactoriaPilaObjetos
+     */
     public interface FactoriaPilaObjetos<T>
     {
-
-		public T crearObjeto();
+        public T crearObjeto();
     }
 
     private final List<T> objetosLibres;
@@ -18,38 +24,32 @@ public class Pila<T>
 
     public Pila(FactoriaPilaObjetos<T> factoria, int maxTam)
     {
-
-		this.factoria = factoria;
-		this.maxTam = maxTam;
-		this.objetosLibres = new ArrayList<T>(maxTam);
+        this.factoria = factoria;
+        this.maxTam = maxTam;
+        this.objetosLibres = new ArrayList<T>(maxTam);
     }
 
     public T nuevoObjeto()
     {
+        T objeto = null;
 
-		T objeto = null;
+        if (objetosLibres.size() == 0)
+        {
+            objeto = factoria.crearObjeto();
+        }
+        else
+        {
+            objeto = objetosLibres.remove(objetosLibres.size() - 1);
+        }
 
-		if (objetosLibres.size() == 0)
-		{
-
-			objeto = factoria.crearObjeto();
-		}
-		else
-		{
-
-			objeto = objetosLibres.remove(objetosLibres.size() - 1);
-		}
-
-		return objeto;
+        return objeto;
     }
 
     public void libera(T objeto)
     {
-
-		if (objetosLibres.size() < maxTam)
-		{
-
-			objetosLibres.add(objeto);
-		}
+        if (objetosLibres.size() < maxTam)
+        {
+            objetosLibres.add(objeto);
+        }
     }
 }

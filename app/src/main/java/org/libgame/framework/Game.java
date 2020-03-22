@@ -1,14 +1,17 @@
 package org.libgame.framework;
 
+/**
+ * @interface Game
+ * @brief interface de Game
+ */
 public interface Game
 {
-
     public Control cogeControl();
 
     public FicheroIO cogeFicheroIO();
 
-    public Grafico cogeGrafico();
-    
+    public Graficos cogeGraficos();
+
     public Audio cogeAudio();
 
     public void ponPantalla(Pantalla pantalla);

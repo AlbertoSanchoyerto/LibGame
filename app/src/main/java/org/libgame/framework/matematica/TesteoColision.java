@@ -2,6 +2,10 @@ package org.libgame.framework.matematica;
 
 import android.graphics.*;
 
+/**
+ * @class TesteoColision
+ * @brief clase TesteoColision
+ */
 public class TesteoColision
 {
 

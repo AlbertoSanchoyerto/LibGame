@@ -2,42 +2,36 @@ package org.libgame.framework.gl;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.IntBuffer;
+import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.libgame.framework.gl.GLGraficos;
+import org.libgame.framework.gl.GLGrafico;
 
 /**
- * @class Vertices3
- * @brief clase Vertices3 vertices 3D
+ * @class VerticesEnlazados
+ * @brief clase VerticesEnlazados
  */
-public class Vertices3
+public class VerticesEnlazados
 {
-    final GLGrafico glGrafico;
+    final GLGraficos glGraficos;
     final boolean tieneColor;
     final boolean tieneCoordsTex;
-    final boolean tieneNormales;
     final int tamVertex;
-    final IntBuffer vertices;
-    final int[] tmpBuffer;
+    final FloatBuffer vertices;
     final ShortBuffer indices;
 
-    public Vertices3(GLGraficos glGraficos, int maxVertices, int maxIndices,
-                     boolean tieneColor, boolean tieneCoordsTex, boolean tieneNormales)
+    public VerticesEnlazados(GLGraficos glGraficos, int maxVertices, int maxIndices, boolean tieneColor, boolean tieneCoordsTex)
     {
         this.glGraficos = glGraficos;
         this.tieneColor = tieneColor;
         this.tieneCoordsTex = tieneCoordsTex;
-        this.tieneNormales = tieneNormales;
-        this.tamVertex = (3 + (tieneColor ? 4 : 0) + (tieneCoordsTex ? 2 : 0) + (tieneNormales ? 3
-            : 0)) * 4;
-        this.tmpBuffer = new int[maxVertices * tamVertex / 4];
+        this.tamVertex = (2 + (tieneColor ?4: 0) + (tieneCoordsTex ?2: 0)) * 4;
 
         ByteBuffer buffer = ByteBuffer.allocateDirect(maxVertices * tamVertex);
         buffer.order(ByteOrder.nativeOrder());
-        vertices = buffer.asIntBuffer();
+        vertices = buffer.asFloatBuffer();
 
         if (maxIndices > 0)
         {
@@ -48,7 +42,7 @@ public class Vertices3
         else
         {
             indices = null;
-        }
+        }            
     }
 
     /**
@@ -60,10 +54,7 @@ public class Vertices3
     public void ponVertices(float[] vertices, int offset, int length)
     {
         this.vertices.clear();
-        int len = offset + length;
-        for (int i = offset, j = 0; i < len; i++, j++)
-            tmpBuffer[j] = Float.floatToRawIntBits(vertices[i]);
-        this.vertices.put(tmpBuffer, 0, length);
+        this.vertices.put(vertices, offset, length);
         this.vertices.flip();
     }
 
@@ -89,32 +80,20 @@ public class Vertices3
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         vertices.position(0);
-        gl.glVertexPointer(3, GL10.GL_FLOAT, tamVertex, vertices);
+        gl.glVertexPointer(2, GL10.GL_FLOAT, tamVertex, vertices);
 
         if (tieneColor)
         {
             gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-            vertices.position(3);
+            vertices.position(2);
             gl.glColorPointer(4, GL10.GL_FLOAT, tamVertex, vertices);
         }
 
         if (tieneCoordsTex)
         {
             gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-            vertices.position(tieneColor ? 7 : 3);
+            vertices.position(tieneColor ?6: 2);
             gl.glTexCoordPointer(2, GL10.GL_FLOAT, tamVertex, vertices);
-        }
-
-        if (tieneNormales)
-        {
-            gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
-            int offset = 3;
-            if (tieneColor)
-                offset += 4;
-            if (tieneCoordsTex)
-                offset += 2;
-            vertices.position(offset);
-            gl.glNormalPointer(GL10.GL_FLOAT, tamVertex, vertices);
         }
     }
 
@@ -125,19 +104,18 @@ public class Vertices3
      * @param int numVertices
      */
     public void dibuja(int tipoPrimitiva, int offset, int numVertices)
-    {
+    {        
         GL10 gl = glGraficos.cogeGL();
 
         if (indices != null)
         {
             indices.position(offset);
-            gl.glDrawElements(tipoPrimitiva, numVertices,
-                              GL10.GL_UNSIGNED_SHORT, indices);
+            gl.glDrawElements(tipoPrimitiva, numVertices, GL10.GL_UNSIGNED_SHORT, indices);
         }
         else
         {
             gl.glDrawArrays(tipoPrimitiva, offset, numVertices);
-        }
+        }        
     }
 
     /**
@@ -151,26 +129,5 @@ public class Vertices3
 
         if (tieneColor)
             gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
-
-        if (tieneNormales)
-            gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
-    }
-
-    /**
-     * @fn cogeNumIndices
-     * @return int numero de indices
-     */
-    public int cogeNumIndices()
-    {
-        return indices.limit();
-    }
-
-    /**
-     * @fn cogeNumVertices
-     * @return int numero de vertices
-     */
-    public int cogeNumVertices()
-    {
-        return vertices.limit() / (tamVertex / 4);
     }
 }

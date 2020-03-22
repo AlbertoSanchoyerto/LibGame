@@ -1,25 +1,25 @@
 package org.libgame.framework.util;
 
 /**
- * @author Alberto Sanchoyerto
- * @version 1.0z Build 9000 Feb 23, 2016.
+ * @class Color
+ * @brief clase Color utilida de conversion de color
  */
 public class Color
 {
-
-    /** Description of convertir(int r, int g, int b, int a)
-     * 
-     * @param r			Red
-     * @param g			Green
-     * @param b			Blue
-     * @param a			Alfa
-     * @return			Color
+    /**
+     * @fn convertir(int r, int g, int b, int a)
+     * @brief convierte los valores (r,g,b,a) a un int color
+     * @param int r rojo
+     * @param int g verde
+     * @param int b azul
+     * @param int a alfa
+     * @return int color
      */
     public static int convertir(int r, int g, int b, int a)
     {
         return ((a & 0xff) << 24) |
-	    ((r & 0xff) << 16) |
-	    ((g & 0xff) << 8) |
-	    ((b & 0xff));               
+        ((r & 0xff) << 16) |
+        ((g & 0xff) << 8) |
+        ((b & 0xff));               
     }
 }

@@ -2,84 +2,85 @@ package org.libgame.framework;
 
 import java.util.List;
 
+/**
+ * @interface Control
+ * @brief interface de Control
+ */
 public interface Control
 {
-
-    // Clase EventoTecla
+    /**
+     * @class EventoTecla
+     * @brief clase EventoTecla
+     */
     public static class EventoTecla
     {
+        public static final int TECLA_ABAJO = 0;
+        public static final int TECLA_ARRIBA = 1;
 
-	public static final int TECLA_ABAJO = 0;
-	public static final int TECLA_ARRIBA = 1;
+        public int tipo;
+        public int codigoTecla;
+        public char caracterTecla;
 
-	public int tipo;
-	public int codigoTecla;
-	public char caracterTecla;
+        public String toString()
+        {
+            StringBuilder builder = new StringBuilder();
 
-	public String toString()
-	{
+            if (tipo == TECLA_ABAJO)
+            {
+                builder.append("tecla pulsa, ");
+            }
+            else
+            {
+                builder.append("tecla suelta, ");
+            }
 
-	    StringBuilder builder = new StringBuilder();
+            builder.append(codigoTecla);
+            builder.append(",");
+            builder.append(caracterTecla);
 
-	    if (tipo == TECLA_ABAJO)
-	    {
-
-		builder.append("tecla pulsa, ");
-	    }
-	    else
-	    {
-
-		builder.append("tecla suelta, ");
-	    }
-
-	    builder.append(codigoTecla);
-	    builder.append(",");
-	    builder.append(caracterTecla);
-
-	    return builder.toString();
-	}
+            return builder.toString();
+        }
     }
 
-    // Clase EventoClick
+    /**
+     * @class EventoClick
+     * @brief clase EventoClick
+     */
     public static class EventoClick
     {
+        public static final int CLICK_ABAJO = 0;
+        public static final int CLICK_ARRIBA = 1;
+        public static final int CLICK_MOVIENDO = 2;
 
-	public static final int CLICK_ABAJO = 0;
-	public static final int CLICK_ARRIBA = 1;
-	public static final int CLICK_MOVIENDO = 2;
+        public int tipo;
+        public int x, y;
+        public int pos;
 
-	public int tipo;
-	public int x, y;
-	public int pos;
+        public String toString()
+        {
+            StringBuilder builder = new StringBuilder();
 
-	public String toString()
-	{
+            if (tipo == CLICK_ABAJO)
+            {
+                builder.append("Click abajo, ");
+            }
+            else if (tipo == CLICK_MOVIENDO)
+            {
+                builder.append("click moviendo, ");
+            }
+            else
+            {
+                builder.append("Click arriba, ");
+            }
 
-	    StringBuilder builder = new StringBuilder();
+            builder.append(pos);
+            builder.append(",");
+            builder.append(x);
+            builder.append(",");
+            builder.append(y);
 
-	    if (tipo == CLICK_ABAJO)
-	    {
-
-		builder.append("Click abajo, ");
-	    }
-	    else if (tipo == CLICK_MOVIENDO)
-	    {
-
-		builder.append("click moviendo, ");
-	    }
-	    else
-	    {
-		builder.append("Click arriba, ");
-	    }
-
-	    builder.append(pos);
-	    builder.append(",");
-	    builder.append(x);
-	    builder.append(",");
-	    builder.append(y);
-
-	    return builder.toString();
-	}
+            return builder.toString();
+        }
     }
 
     public boolean esTeclaPulsada(int keyCode);

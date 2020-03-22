@@ -6,9 +6,12 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+/**
+ * @class AndroidVistaRapida
+ * @brief clase AndroidVistaRapida manejador de vistas rapidas
+ */
 public class AndroidVistaRapida extends SurfaceView implements Runnable
 {
-
     AndroidGame game;
     Bitmap framebuffer;
     Thread renderThread = null;
@@ -17,66 +20,58 @@ public class AndroidVistaRapida extends SurfaceView implements Runnable
 
     public AndroidVistaRapida(AndroidGame game, Bitmap framebuffer)
     {
-
-		super(game);
-		this.game = game;
-		this.framebuffer = framebuffer;
-		this.holder = getHolder();
+        super(game);
+        this.game = game;
+        this.framebuffer = framebuffer;
+        this.holder = getHolder();
     }
 
     public void resume()
     {
-
-		corriendo = true;
-		renderThread = new Thread(this);
-		renderThread.start();         
+        corriendo = true;
+        renderThread = new Thread(this);
+        renderThread.start();         
     }      
 
     public void run()
     {
+        Rect dstRect = new Rect();
+        long tiempoInicial = System.nanoTime();
+        while (corriendo)
+        {
+            if (!holder.getSurface().isValid())
+            {
+                continue;
+            }
 
-		Rect dstRect = new Rect();
-		long tiempoInicial = System.nanoTime();
-		while (corriendo)
-		{
+            float deltaTime = (System.nanoTime() - tiempoInicial) / 1000000000.0f;
+            tiempoInicial = System.nanoTime();
 
-			if (!holder.getSurface().isValid())
-			{
+            game.cogePantallaActual().actualiza(deltaTime);
+            game.cogePantallaActual().presenta(deltaTime);
 
-				continue;
-			}
-
-			float deltaTime = (System.nanoTime() - tiempoInicial) / 1000000000.0f;
-			tiempoInicial = System.nanoTime();
-
-			game.cogePantallaActual().actualiza(deltaTime);
-			game.cogePantallaActual().presenta(deltaTime);
-
-			Canvas canvas = holder.lockCanvas();
-			canvas.getClipBounds(dstRect);
-			canvas.drawBitmap(framebuffer, null, dstRect, null);                           
-			holder.unlockCanvasAndPost(canvas);
-		}
+            Canvas canvas = holder.lockCanvas();
+            canvas.getClipBounds(dstRect);
+            canvas.drawBitmap(framebuffer, null, dstRect, null);                           
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
     public void pause()
     {
+        corriendo = false;                        
+        while (true)
+        {
 
-		corriendo = false;                        
-		while (true)
-		{
-
-			try
-			{
-
-				renderThread.join();
-				break;
-			}
-			catch (InterruptedException e)
-			{
-
-				// retry
-			}
-		}
+            try
+            {
+                renderThread.join();
+                break;
+            }
+            catch (InterruptedException e)
+            {
+                // retry
+            }
+        }
     }
 }

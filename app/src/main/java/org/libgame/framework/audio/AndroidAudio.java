@@ -12,59 +12,60 @@ import org.libgame.framework.Audio;
 import org.libgame.framework.Musica;
 import org.libgame.framework.Sonido;
 
-/** Clase para manejar el audio
+/**
+ * @class AndroidAudio
+ * @brief clase AndroidAudio manejador de audio
  */
 public class AndroidAudio implements Audio
 {
-
     AssetManager assets;
     SoundPool soundPool;
 
     public AndroidAudio(Activity activity)
     {
-
-		activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		this.assets = activity.getAssets();
-		this.soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+        activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        this.assets = activity.getAssets();
+        this.soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
     }
 
-    /** Carga una nueva musica
+    /**
+     * @fn nuevaMusica
+     * @param String nombreFichero
+     * @brief crea un nueva musica desde assets
      */
     @Override
     public Musica nuevaMusica(String nombreFichero)
     {
+        try
+        {
+            AssetFileDescriptor assetDescriptor = assets.openFd(nombreFichero);
 
-		try
-		{
-
-			AssetFileDescriptor assetDescriptor = assets.openFd(nombreFichero);
-
-			return new AndroidMusica(assetDescriptor);
-		}
-		catch (IOException e)
-		{
-
-			throw new RuntimeException("No puedo cargar musica '" + nombreFichero + "'");
-		}
+            return new AndroidMusica(assetDescriptor);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("No puedo cargar musica '" + nombreFichero + "'");
+        }
     }
 
-    /** Carga un nuevo sonido
+    /**
+     * @fn nuevoSonido
+     * @param String nombreFichero
+     * @brief crea un nuevo sonido desde assets
      */
     @Override
     public Sonido nuevoSonido(String nombreFichero)
     {
+        try
+        {
+            AssetFileDescriptor assetDescriptor = assets.openFd(nombreFichero);
+            int soundId = soundPool.load(assetDescriptor, 0);
 
-		try
-		{
-			AssetFileDescriptor assetDescriptor = assets.openFd(nombreFichero);
-			int soundId = soundPool.load(assetDescriptor, 0);
-
-			return new AndroidSonido(soundPool, soundId);
-		}
-		catch (IOException e)
-		{
-
-			throw new RuntimeException("No puedo cargar sonido '" + nombreFichero + "'");
-		}
+            return new AndroidSonido(soundPool, soundId);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("No puedo cargar sonido '" + nombreFichero + "'");
+        }
     }
 }

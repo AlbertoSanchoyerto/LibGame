@@ -1,8 +1,11 @@
 package org.libgame.framework;
 
+/**
+ * @interface Musica
+ * @brief interface de Musica
+ */
 public interface Musica
 {
-
     public void reproduce();
 
     public void detiene();

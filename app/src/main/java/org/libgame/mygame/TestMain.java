@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/**
+ * @class TestMain
+ * @brief clase con un ListActivity con la lista de ejemplos
+ */
 public class TestMain extends ListActivity
 {
     String tests[] = { "GLGameTest", "CubeTest" };

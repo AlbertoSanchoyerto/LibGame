@@ -21,114 +21,130 @@ import org.libgame.framework.audio.AndroidAudio;
 
 import org.libgame.framework.sistema.*;
 
+/**
+ * @class AndroidGame
+ * @brief clase AndroidGame base de Game
+ */
 public abstract class AndroidGame extends Activity implements Game
 {
-
     AndroidVistaRapida vistaRapida;
-    Grafico graficos;
+    Graficos graficos;
     Audio audio;
-    Control entrada;
+    Control control;
     FicheroIO ficheroIO;
     Pantalla pantalla;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
 
-		super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        boolean esLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        int frameBufferAncho = esLandscape ? 480 : 320;
+        int frameBufferAlto = esLandscape ? 320 : 480;
+        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferAncho, frameBufferAlto, Config.RGB_565);
 
-		boolean esLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-		int frameBufferAncho = esLandscape ? 480 : 320;
-		int frameBufferAlto = esLandscape ? 320 : 480;
-		Bitmap frameBuffer = Bitmap.createBitmap(frameBufferAncho, frameBufferAlto, Config.RGB_565);
+        float scaleX = (float) frameBufferAncho / getWindowManager().getDefaultDisplay().getWidth();
+        float scaleY = (float) frameBufferAlto / getWindowManager().getDefaultDisplay().getHeight();
 
-		float scaleX = (float) frameBufferAncho / getWindowManager().getDefaultDisplay().getWidth();
-		float scaleY = (float) frameBufferAlto / getWindowManager().getDefaultDisplay().getHeight();
-
-		vistaRapida = new AndroidVistaRapida(this, frameBuffer);
-		graficos = new AndroidGraficos(getAssets(), frameBuffer);
-		ficheroIO = new AndroidFicheroIO(getAssets());
-		audio = new AndroidAudio(this);
-		entrada = new AndroidControl(this, vistaRapida, scaleX, scaleY);
-		pantalla = cogePantallaActual();
-		setContentView(vistaRapida);
+        vistaRapida = new AndroidVistaRapida(this, frameBuffer);
+        graficos = new AndroidGraficos(getAssets(), frameBuffer);
+        ficheroIO = new AndroidFicheroIO(getAssets());
+        audio = new AndroidAudio(this);
+        control = new AndroidControl(this, vistaRapida, scaleX, scaleY);
+        pantalla = cogePantallaActual();
+        setContentView(vistaRapida);
     }
 
     @Override
     public void onResume()
     {
-
-		super.onResume();
-		pantalla.resumen();
-		vistaRapida.resume();
+        super.onResume();
+        pantalla.resumen();
+        vistaRapida.resume();
     }
 
     @Override
     public void onPause()
     {
+        super.onPause();
+        vistaRapida.pause();
+        pantalla.pausa();
 
-		super.onPause();
-		vistaRapida.pause();
-		pantalla.pausa();
-
-		if (isFinishing())
-		{
-
-			pantalla.libera();
-		}
+        if (isFinishing())
+        {
+            pantalla.libera();
+        }
     }
 
+    /**
+     * @fn cogeControl
+     * @return Control
+     */
     @Override
     public Control cogeControl()
     {
-
-		return entrada;
+        return control;
     }
 
+    /**
+     * @fn cogeFicheroIO
+     * @return FicheroIO
+     */
     @Override
     public FicheroIO cogeFicheroIO()
     {
-
-		return ficheroIO;
+        return ficheroIO;
     }
 
+    /**
+     * @fn cogeGraficos
+     * @return Graficos
+     */
     @Override
-    public Grafico cogeGrafico()
+    public Graficos cogeGraficos()
     {
-
-		return graficos;
+        return graficos;
     }
 
+    /**
+     * @fn cogeAudio
+     * @return Audio
+     */
     @Override
     public Audio cogeAudio()
     {
-
-		return audio;
+        return audio;
     }
 
+    /**
+     * @fn ponPantalla
+     * @param Pantalla pantalla
+     */
     @Override
     public void ponPantalla(Pantalla pantalla)
     {
+        if (pantalla == null)
+        {
+            throw new IllegalArgumentException("La pantalla no puede ser null");
+        }
 
-		if (pantalla == null)
-		{
-
-			throw new IllegalArgumentException("La pantalla no puede ser null");
-		}
-
-		this.pantalla.pausa();
-		this.pantalla.libera();
-		pantalla.resumen();
-		pantalla.actualiza(0);
-		this.pantalla = pantalla;
+        this.pantalla.pausa();
+        this.pantalla.libera();
+        pantalla.resumen();
+        pantalla.actualiza(0);
+        this.pantalla = pantalla;
     }
 
+    /**
+     * @fn cogePantallaActual
+     * @return Pantalla
+     */
     public Pantalla cogePantallaActual()
     {
-
-		return pantalla;
+        return pantalla;
     }   
 }

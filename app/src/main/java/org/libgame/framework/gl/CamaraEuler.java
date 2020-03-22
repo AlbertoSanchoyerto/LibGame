@@ -7,7 +7,12 @@ import android.opengl.Matrix;
 
 import org.libgame.framework.matematica.Vector3;
 
-public class CamaraEuler {
+/**
+ * @class CamaraEuler
+ * @brief clase CamaraEuler para graficos en 3D
+ */
+public class CamaraEuler
+{
 	final Vector3 posicion = new Vector3();
 	float guinada;
 	float cabeceo;
@@ -23,19 +28,23 @@ public class CamaraEuler {
 		this.legos = legos;
 	}
 
-	public Vector3 cogePosicion() {
+	public Vector3 cogePosicion()
+	{
 		return posicion;
 	}
 	
-	public float cogeGuinada() {
+	public float cogeGuinada()
+	{
 		return guinada;
 	}
 	
-	public float cogeCabeceo() {
+	public float cogeCabeceo()
+	{
 		return cabeceo;
 	}
 
-	public void ponAngulos(float guinada, float cabeceo) {
+	public void ponAngulos(float guinada, float cabeceo)
+	{
 		if (cabeceo < -90)
 			cabeceo = -90;
 		if (cabeceo > 90)
@@ -44,7 +53,8 @@ public class CamaraEuler {
 		this.cabeceo = cabeceo;
 	}
 
-	public void rotar(float incGuinada, float incCabeceo) {
+	public void rotar(float incGuinada, float incCabeceo)
+	{
 		this.guinada += incGuinada;
 		this.cabeceo += incCabeceo;
 		if (cabeceo < -90)
@@ -53,7 +63,8 @@ public class CamaraEuler {
 			cabeceo = 90;
 	}
 
-	public void ponMatrices(GL10 gl) {
+	public void ponMatrices(GL10 gl)
+	{
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
 		GLU.gluPerspective(gl, campoDeVision, relacionAspecto, cerca, legos);
@@ -69,7 +80,8 @@ public class CamaraEuler {
 	final float[] outVec = new float[4];
 	final Vector3 direccion = new Vector3();
 
-	public Vector3 cogeDireccion() {
+	public Vector3 cogeDireccion()
+	{
 		Matrix.setIdentityM(matrix, 0);
 		Matrix.rotateM(matrix, 0, guinada, 0, 1, 0);
 		Matrix.rotateM(matrix, 0, cabeceo, 1, 0, 0);

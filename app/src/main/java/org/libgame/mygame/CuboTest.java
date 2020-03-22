@@ -12,6 +12,10 @@ import org.libgame.framework.gl.GLGame;
 import org.libgame.framework.gl.GLPantalla;
 import org.libgame.framework.gl.*;
 
+/**
+ * @class CuboTest
+ * @brief la clase CuboTest ejemplo secillo de 3D
+ */
 public class CuboTest extends GLGame
 {
 

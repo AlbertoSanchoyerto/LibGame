@@ -10,10 +10,14 @@ import org.libgame.framework.util.Pila;
 import org.libgame.framework.Control.EventoClick;
 import org.libgame.framework.util.Pila.FactoriaPilaObjetos;
 
+/**
+ * @class SimpleClick
+ * @brief clase SimpleClick
+ */
 public class SimpleClick implements Click
 {
     final static int MAX_PILA_CLICKS = 100;
-	
+
     boolean esClickPulsado;
     int clickX;
     int clickY;
@@ -24,119 +28,107 @@ public class SimpleClick implements Click
     float escalaY;
 
     public SimpleClick(View view, float escalaX, float escalaY)
-    {	
-		FactoriaPilaObjetos<EventoClick> factoria = new FactoriaPilaObjetos<EventoClick>() {
+    {
+        FactoriaPilaObjetos<EventoClick> factoria = new FactoriaPilaObjetos<EventoClick>() {
 
-			@Override
-			public EventoClick crearObjeto()
-			{	
-				return new EventoClick();
-			}            
-		};
+            @Override
+            public EventoClick crearObjeto()
+            {    
+                return new EventoClick();
+            }            
+        };
 
-		pilaEventosClick = new Pila<EventoClick>(factoria, MAX_PILA_CLICKS);
-		view.setOnTouchListener(this);
+        pilaEventosClick = new Pila<EventoClick>(factoria, MAX_PILA_CLICKS);
+        view.setOnTouchListener(this);
 
-		this.escalaX = escalaX;
-		this.escalaY = escalaY;
+        this.escalaX = escalaX;
+        this.escalaY = escalaY;
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent evento)
     {
+        synchronized (this)
+        {
+            EventoClick eventoClick = pilaEventosClick.nuevoObjeto();
+            switch (evento.getAction())
+            {
+                case MotionEvent.ACTION_DOWN:
+                    eventoClick.tipo = EventoClick.CLICK_ABAJO;
+                    esClickPulsado = true;
+                    break;
 
-		synchronized (this)
-		{
+                case MotionEvent.ACTION_MOVE:
+                    eventoClick.tipo = EventoClick.CLICK_MOVIENDO;
+                    esClickPulsado = true;
+                    break;
 
-			EventoClick eventoClick = pilaEventosClick.nuevoObjeto();
-			switch (evento.getAction())
-			{
+                case MotionEvent.ACTION_CANCEL:                
+                case MotionEvent.ACTION_UP:
+                    eventoClick.tipo = EventoClick.CLICK_ARRIBA;
+                    esClickPulsado = false;
+                    break;
+            }
 
-				case MotionEvent.ACTION_DOWN:
-					eventoClick.tipo = EventoClick.CLICK_ABAJO;
-					esClickPulsado = true;
-					break;
+            eventoClick.x = clickX = (int)(evento.getX() * escalaX);
+            eventoClick.y = clickY = (int)(evento.getY() * escalaY);
+            bufferEventosClick.add(eventoClick);                        
 
-				case MotionEvent.ACTION_MOVE:
-					eventoClick.tipo = EventoClick.CLICK_MOVIENDO;
-					esClickPulsado = true;
-					break;
-
-				case MotionEvent.ACTION_CANCEL:                
-				case MotionEvent.ACTION_UP:
-					eventoClick.tipo = EventoClick.CLICK_ARRIBA;
-					esClickPulsado = false;
-					break;
-			}
-
-			eventoClick.x = clickX = (int)(evento.getX() * escalaX);
-			eventoClick.y = clickY = (int)(evento.getY() * escalaY);
-			bufferEventosClick.add(eventoClick);                        
-
-			return true;
-		}
+            return true;
+        }
     }
 
     @Override
     public boolean esClickPulsado(int pos)
     {
+        synchronized (this)
+        {
+            if (pos == 0)
+            {
+                return esClickPulsado;
+            }
+            else
+            {
 
-		synchronized (this)
-		{
-
-			if (pos == 0)
-			{
-
-				return esClickPulsado;
-			}
-			else
-			{
-
-				return false;
-			}
-		}
+                return false;
+            }
+        }
     }
 
     @Override
     public int cogeClickX(int pos)
     {
-
-		synchronized (this)
-		{
-
-			return clickX;
-		}
+        synchronized (this)
+        {
+            return clickX;
+        }
     }
 
     @Override
     public int cogeClickY(int pos)
     {
-		synchronized (this)
-		{
-
-			return clickY;
-		}
+        synchronized (this)
+        {
+            return clickY;
+        }
     }
 
     @Override
     public List<EventoClick> cogeEventosClick()
     {
+        synchronized (this)
+        {
+            int len = eventosClick.size();
+            for (int i = 0; i < len; i++)
+            {
+                pilaEventosClick.libera(eventosClick.get(i));
+            }
 
-		synchronized (this)
-		{
+            eventosClick.clear();
+            eventosClick.addAll(bufferEventosClick);
+            bufferEventosClick.clear();
 
-			int len = eventosClick.size();
-			for (int i = 0; i < len; i++)
-			{
-
-				pilaEventosClick.libera(eventosClick.get(i));
-			}
-
-			eventosClick.clear();
-			eventosClick.addAll(bufferEventosClick);
-			bufferEventosClick.clear();
-
-			return eventosClick;
-		}
+            return eventosClick;
+        }
     }
 }

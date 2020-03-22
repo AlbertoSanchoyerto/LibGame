@@ -6,9 +6,12 @@ import android.view.View.OnTouchListener;
 
 import org.libgame.framework.Control.EventoClick;
 
+/**
+ * @interface Click
+ * @brief interface Click
+ */
 public interface Click extends OnTouchListener
 {
-
     public boolean esClickPulsado(int pos);
 
     public int cogeClickX(int pos);
