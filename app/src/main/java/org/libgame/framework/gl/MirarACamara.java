@@ -6,6 +6,10 @@ import android.opengl.GLU;
 
 import org.libgame.framework.matematica.Vector3;
 
+/**
+ * @class MirarACamara
+ * @brief clase MirarACamara
+ */
 public class MirarACamara
 {
 	final Vector3 posicion;
