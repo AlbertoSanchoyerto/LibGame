@@ -27,16 +27,34 @@ import org.libgame.framework.audio.AndroidAudio;
 /**
  * @class GLGame
  * @brief clase GLGame base de Game para openGL
+ *
+ * Esta clase GLGame controla los estados de juego;
+ *
+ * - Iniciando. coge la Pantalla inicial y pasa al estado Corriendo.
+ * - Corriendo. actualiza y presenta la Pantalla actual.
+ * - Pausado. pausa la Pantalla actual y pasa al estado Ocioso.
+ * - Terminado. pausa y libera la Pantalla pasa el estado a Ocioso.
+ *
+ * Y es el contenedor de sus partes básicas;
+ *
+ * - glGraficos
+ * - audio
+ * - control
+ * - fichero
  */
 public abstract class GLGame extends Activity implements Game, Renderer
 {
+	/**
+	 * @enum enum
+	 * Estados posibles del juego
+	 */
     enum GLGameEstado
     {
-        Inicializando,
-        Corriendo,
-        Pausado,
-        Terminado,
-        Idle,
+        Inicializando, ///< Cuando se encuentre iniciando
+        Corriendo, ///< Cuando se esta ejecutando
+        Pausado, ///< Cuando se pare momentaneamente
+        Terminado, ///< Cuando se termine
+        Ocioso, ///< Cuando este sin hacer nada
     }
 
     GLSurfaceView glView;    
@@ -83,10 +101,8 @@ public abstract class GLGame extends Activity implements Game, Renderer
 
         synchronized (estadoCambiado)
         {
-
             if (estado == GLGameEstado.Inicializando)
             {
-
                 pantalla = cogePantallaInicial();
             }
 
@@ -125,7 +141,7 @@ public abstract class GLGame extends Activity implements Game, Renderer
             pantalla.pausa();            
             synchronized (estadoCambiado)
             {
-                this.estado = GLGameEstado.Idle;
+                this.estado = GLGameEstado.Ocioso;
                 estadoCambiado.notifyAll();
             }
         }
@@ -136,7 +152,7 @@ public abstract class GLGame extends Activity implements Game, Renderer
             pantalla.libera();
             synchronized (estadoCambiado)
             {
-                this.estado = GLGameEstado.Idle;
+                this.estado = GLGameEstado.Ocioso;
                 estadoCambiado.notifyAll();
             }            
         }
@@ -153,7 +169,6 @@ public abstract class GLGame extends Activity implements Game, Renderer
             }
             else
             {
-
                 estado = GLGameEstado.Pausado;
             }
 

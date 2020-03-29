@@ -6,6 +6,9 @@ import android.util.FloatMath;
 /**
  * @class Vector3
  * @brief clase Vector3 vectores en 3D
+ *
+ * clase que define una posición X, Y, Z y
+ * las operaciones copia, suma, resta...
  */
 public class Vector3
 {

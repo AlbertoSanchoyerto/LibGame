@@ -11,6 +11,10 @@ import org.libgame.framework.Musica;
 /**
  * @class AndroidMusica
  * @brief clase Musica
+ *
+ * esta clase se crea a partir de un fichero en assets de musica
+ *
+ * y se encarga de la reproducción, pausa, volumen, etc...
  */
 public class AndroidMusica implements Musica, OnCompletionListener
 {

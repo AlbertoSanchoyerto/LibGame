@@ -15,6 +15,8 @@ import org.libgame.framework.Sonido;
 /**
  * @class AndroidAudio
  * @brief clase AndroidAudio manejador de audio
+ *
+ * Esta clase es la base para crear Musica y Sonido
  */
 public class AndroidAudio implements Audio
 {

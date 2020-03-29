@@ -7,6 +7,11 @@ import org.libgame.framework.matematica.Vector2;
  * @class ObjetoGame
  * @brief clase ObjetoGame
  * objetos basicos del juego
+ *
+ * Esta clase ObjetoGame define los elementos del juego.
+ *
+ * En estos elementos definimos su posición con un Vector2
+ * y sus limites con un Rectangulo para detectar colisiones.
  */
 public class ObjetoGame
 {

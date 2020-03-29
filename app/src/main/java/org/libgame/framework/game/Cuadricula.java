@@ -39,6 +39,10 @@ public class Cuadricula
         objetosEncontrados = new ArrayList<ObjetoGame>(10);
     }
 
+	/**
+	 * @fn insertaObjetoEstatico
+	 * @param ObjetoGame obj
+	 */
     public void insertaObjetoEstatico(ObjetoGame obj)
     {
         int[] idsCeldas = cogeIdsCeldas(obj);
@@ -50,6 +54,10 @@ public class Cuadricula
         }
     }
 
+	/**
+	 * @fn insertaObjetoDinamico
+	 * @param ObjetoGame obj
+	 */
     public void insertaObjetoDinamico(ObjetoGame obj)
     {
         int[] idsCeldas = cogeIdsCeldas(obj);
@@ -61,6 +69,10 @@ public class Cuadricula
         }
     }
 
+	/**
+	 * @fn quitaObjeto
+	 * @param ObjetoGame obj
+	 */
     public void quitaObjeto(ObjetoGame obj)
     {
         int[] idsCeldas = cogeIdsCeldas(obj);
@@ -73,7 +85,11 @@ public class Cuadricula
         }
     }
 
-    public void limipiaCeldasDinamicas(ObjetoGame obj)
+	/**
+	 * @fn limpiaCeldasDinamicas
+	 * @param ObjetoGame obj
+	 */
+    public void limpiaCeldasDinamicas(ObjetoGame obj)
     {
         int len = celdasDinamicas.length;
         for (int i = 0; i < len; i++)
@@ -82,6 +98,11 @@ public class Cuadricula
         }
     }
 
+	/**
+	 * @fn cogeColisionadoresPontenciales
+	 * @param ObjetoGame obj
+	 * @return List<ObjetoGame> objetosEncontrados
+	 */
     public List<ObjetoGame> cogeColisionadoresPontenciales(ObjetoGame obj)
     {
         objetosEncontrados.clear();
@@ -108,7 +129,7 @@ public class Cuadricula
         }
         return objetosEncontrados;
     }
-
+	
     public int[] cogeIdsCeldas(ObjetoGame obj)
     {
         int x1 = (int)Math.floor(obj.limites.min.x / tamCelda);

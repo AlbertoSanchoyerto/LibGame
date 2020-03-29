@@ -7,6 +7,10 @@ import org.libgame.framework.Sonido;
 /**
  * @class AndroidSonido
  * @brief clase Sonido
+ *
+ * esta clase se crea a partir de un fichero en assets de sonido
+ *
+ * y reproduce el sonido a un volumen
  */
 public class AndroidSonido implements Sonido
 {

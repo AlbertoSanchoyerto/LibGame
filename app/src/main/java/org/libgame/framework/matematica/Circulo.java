@@ -3,6 +3,9 @@ package org.libgame.framework.matematica;
 /**
  * @class Circulo
  * @brief clase Circulo
+ *
+ * esta clase define un circulo con la posición
+ * con un centro Vector2 y un radio
  */
 public class Circulo
 {

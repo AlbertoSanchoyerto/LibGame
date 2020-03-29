@@ -3,6 +3,13 @@ package org.libgame.framework.matematica;
 /**
  * @class Rectangulo
  * @brief clase Rectangulo
+ *
+ * esta clase define un rectangulo con 
+ * la posicion min Vector2 y sus medidas
+ * de ancho y alto.
+ *
+ * la posición min es la esquina superior
+ * izquierda del rectangulo.
  */
 public class Rectangulo
 {

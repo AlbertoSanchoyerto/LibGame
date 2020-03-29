@@ -5,6 +5,9 @@ import android.util.FloatMath;
 /**
  * @class Vector2
  * @brief clase Vector2 vectores en 2D
+ *
+ * clase que define una posición X, Y y
+ * las operaciones copia, suma, resta...
  */
 public class Vector2
 {

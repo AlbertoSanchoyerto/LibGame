@@ -5,6 +5,12 @@ import org.libgame.framework.grafico.*;
 /**
  * @class Animacion
  * @brief clase Animacion
+ *
+ * esta clase define un grupo de TexturaRegion
+ * con una duracion.
+ *
+ * con la función cogeFotograma suministra la
+ * TexturaRegion corresponde al tiempoEstado
  */
 public class Animacion
 {
